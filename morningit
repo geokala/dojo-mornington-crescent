@@ -54,7 +54,7 @@ def game_loop(station_file, rules):
 
 
 if __name__ == '__main__':
-    rules = 'basic'
+    selection = 'basic'
     if len(sys.argv) > 1:
         selection = sys.argv[1]
     rules = {
