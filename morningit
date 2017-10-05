@@ -12,12 +12,12 @@ def get_stuff(filename):
 def get_station_names(filename):
     data = get_stuff(filename)
 
-    stations = [row[0] for row in data]
+    stations = [row[0].lower() for row in data]
 
     return stations
 
 def is_mornington(station):
-    return station == "Mornington Crescent"
+    return station == "mornington crescent"
 
 
 def win():
@@ -31,6 +31,7 @@ def lose():
 
 
 def basic_game(guess, stations):
+    guess = guess.lower()
     if guess in stations: 
         if is_mornington(guess):
             win()
