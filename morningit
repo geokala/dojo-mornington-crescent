@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import csv
+import sys
 
 def get_stuff(filename):
     with open(filename) as fh:
@@ -13,6 +14,17 @@ def get_station_names(filename):
     stations = [row[0] for row in data]
 
     return stations
+
+def is_mornington(station):
+    return station == "Mornington Crescent"
+
+def win():
+    print("You have won!")
+    sys.exit()
+
+def lose():
+    print("You lose :'(")
+    sys.exit()
 
 if __name__ == '__main__':
     print(get_station_names('stations.csv'))
