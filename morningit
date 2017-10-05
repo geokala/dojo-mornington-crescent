@@ -17,7 +17,9 @@ def get_station_names(filename):
     return stations
 
 def is_mornington(station):
-    return station == "Mornington Crescent"
+    # return station == "Mornington Crescent"
+    # I am so sick of typing M C
+    return station == 'Bank'
 
 
 def win():
@@ -30,7 +32,8 @@ def lose():
     sys.exit()
 
 
-def basic_game(guess, stations):
+def basic_game(history, stations):
+    guess = history[-1]
     if guess in stations: 
         if is_mornington(guess):
             win()
@@ -43,9 +46,11 @@ def basic_game(guess, stations):
 def game_loop(station_file, rules):
     station_list = get_station_names(station_file)
 
+    history = []
     while True:
         guess = input('So, which station are you thinking of? ')
-        rules(guess.strip(), station_list)
+        history.append(guess.strip())
+        rules(history, station_list)
 
 
 if __name__ == '__main__':
