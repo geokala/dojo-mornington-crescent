@@ -35,7 +35,7 @@ def basic_game(guess, stations):
         if is_mornington(guess):
             win()
         else:
-            guess_again(guess)
+            print('{guess} is not what I was thinking of'.format(guess=guess))
     else:
         lose()
 
@@ -45,7 +45,7 @@ def game_loop(station_file):
 
     while True:
         guess = input('So, which station are you thinking of? ')
-        basic_game(guess.strip(), station_file)
+        basic_game(guess.strip(), station_list)
 
 
 if __name__ == '__main__':
