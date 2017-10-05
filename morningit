@@ -8,6 +8,7 @@ def get_stuff(filename):
     data = csv.reader(data)
     return data
 
+
 def get_station_names(filename):
     data = get_stuff(filename)
 
@@ -18,13 +19,34 @@ def get_station_names(filename):
 def is_mornington(station):
     return station == "Mornington Crescent"
 
+
 def win():
     print("You have won!")
     sys.exit()
+
 
 def lose():
     print("You lose :'(")
     sys.exit()
 
+
+def basic_game(guess, stations):
+    if guess in stations: 
+        if is_mornington(guess):
+            win()
+        else:
+            guess_again(guess)
+    else:
+        lose()
+
+
+def game_loop(station_file):
+    station_list = get_station_names(station_file)
+
+    while True:
+        guess = input('So, which station are you thinking of? ')
+        basic_game(guess.strip(), station_file)
+
+
 if __name__ == '__main__':
-    print(get_station_names('stations.csv'))
+    game_loop('stations.csv')
