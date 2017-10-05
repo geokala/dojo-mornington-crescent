@@ -40,13 +40,28 @@ def basic_game(guess, stations):
         lose()
 
 
-def game_loop(station_file):
+def game_loop(station_file, rules):
     station_list = get_station_names(station_file)
 
     while True:
         guess = input('So, which station are you thinking of? ')
-        basic_game(guess.strip(), station_list)
+        rules(guess.strip(), station_list)
 
 
 if __name__ == '__main__':
-    game_loop('stations.csv')
+    rules = 'basic'
+    if len(sys.argv) > 1:
+        selection = sys.argv[1]
+    rules = {
+        'basic': basic_game,
+    }
+    selected_rules = rules.get(selection)
+    if selected_rules:
+        game_loop('stations.csv', selected_rules)
+    else:
+        sys.stderr.write(
+            'You need to pick a valid rules-set: {choices}\n'.format(
+                choices=', '.join(rules.keys()),
+            )
+        )
+        sys.exit(1)
