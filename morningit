@@ -1,6 +1,10 @@
 #! /usr/bin/env python3
 import csv
 import sys
+import random
+import time
+
+
 
 def get_stuff(filename):
     with open(filename) as fh:
@@ -17,7 +21,9 @@ def get_station_names(filename):
     return stations
 
 def is_mornington(station):
-    return station == "mornington crescent"
+    # return station == "mornington crescent"
+    # I am so sick of typing M C
+    return station == 'bank'
 
 
 def win():
@@ -30,8 +36,8 @@ def lose():
     sys.exit()
 
 
-def basic_game(guess, stations):
-    guess = guess.lower()
+def basic_game(history, stations):
+    guess = history[-1]
     if guess in stations: 
         if is_mornington(guess):
             win()
@@ -41,20 +47,41 @@ def basic_game(guess, stations):
         lose()
 
 
+def last_letter_game(history, stations):
+    guess = history[-1]
+    
+    if len(history) == 1:
+        previous = random.choice(stations)
+    else:
+        previous = history[-2]
+    
+    if guess in stations: 
+        if is_mornington(guess) and guess.startswith(previous[-1]):
+            win()
+        else:
+            print('{guess} is not what I was thinking of.\n'
+                'I need something informed by {thing}'.format(guess=guess, thing=previous))
+    else:
+        lose()
+
+
 def game_loop(station_file, rules):
     station_list = get_station_names(station_file)
 
+    history = []
     while True:
         guess = input('So, which station are you thinking of? ')
-        rules(guess.strip(), station_list)
+        history.append(guess.strip().lower())
+        rules(history, station_list)
 
 
 if __name__ == '__main__':
-    rules = 'basic'
+    selection = 'basic'
     if len(sys.argv) > 1:
         selection = sys.argv[1]
     rules = {
         'basic': basic_game,
+        'last_letter': last_letter_game,
     }
     selected_rules = rules.get(selection)
     if selected_rules:
